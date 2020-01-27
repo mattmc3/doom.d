@@ -1,0 +1,7 @@
+#+TITLE: doom.d - My doom-emacs config
+
+** Installation
+
+#+BEGIN_SRC bash
+git clone git@github.com:mattmc3/doom.d ~/.config/doom
+#+END_SRC
