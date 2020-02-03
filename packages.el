@@ -6,9 +6,9 @@
 ;; (package! another-package :recipe (:fetcher github :repo "username/repo"))
 ;; (package! builtin-package :disable t)
 
-(package! taskpaper-mode)
+;; (package! taskpaper-mode)
+;; (package! desktop+)
 (package! centaur-tabs)
 (package! key-chord)
 (package! evil-escape)
-(package! desktop+)
 (package! real-auto-save)
