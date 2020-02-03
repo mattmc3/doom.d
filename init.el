@@ -45,6 +45,9 @@
        window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
 
+       ;; my custom modules
+       frame-geometry
+
        :editor
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files

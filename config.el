@@ -1,7 +1,12 @@
 ;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
 ;; https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org#customize
 
+;; key mappings: https://github.com/hlissner/doom-emacs/blob/develop/docs/api.org#map
+
 ;; Place your private configuration here
+
+;; hide splash screen
+(setq inhibit-splash-screen t)
 
 ;; font
 (setq doom-font (font-spec :family "Meslo LG S for Powerline" :size 13))
@@ -16,7 +21,8 @@
 (setq centaur-tabs-modified-marker "*")
 (setq centaur-tabs-set-bar 'over)
 (setq centaur-tabs-gray-out-icons 'buffer)
-(centaur-tabs-group-by-projectile-project)
+;;(centaur-tabs-group-by-projectile-project)
+;; https://github.com/hlissner/doom-emacs/blob/develop/docs/api.org#map
 (define-key evil-normal-state-map (kbd "g t") 'centaur-tabs-forward)
 (define-key evil-normal-state-map (kbd "g T") 'centaur-tabs-backward)
 
@@ -31,8 +37,23 @@
 (setq org-bullets-bullet-list '("◉" "○" "✸" "◈" "✽" "✲"))
 (setq org-startup-with-inline-images t)
 
+;; toggle between todo/done
+(defun org-toggle-todo-to-done ()
+  (interactive)
+  (save-excursion
+    (org-back-to-heading t) ;; Make sure command works even if point is
+                            ;; below target heading
+    (cond ((looking-at "\*+ TODO")
+           (org-todo "DONE"))
+          ((looking-at "\*+ DONE")
+           (org-todo "TODO"))
+          (t (message "Can only toggle between TODO and DONE.")))))
+
+(map! :map org-mode-map "s-d" 'org-toggle-todo-to-done)
+
 ;; projectile
 (projectile-add-known-project "~/org")
+(setq projectile-project-search-path '("~/Projects/" "~/.config/"))
 
 ;; trailing newlines are the bomb
 (setq require-final-newline t)
@@ -40,51 +61,18 @@
 ;; real-auto-save
 (add-hook 'prog-mode-hook 'real-auto-save-mode)
 
+;; clear buffers I don't want
+;; empty *scratch*
+(setq initial-scratch-message "")
 
-;; frame-geometry
-(defun frame-geometry/save ()
-  "Gets the current frame's geometry and saves to ~/.emacs.d/frame-geometry."
-  (let (
-        (frame-geometry-left (frame-parameter (selected-frame) 'left))
-        (frame-geometry-top (frame-parameter (selected-frame) 'top))
-        (frame-geometry-width (frame-parameter (selected-frame) 'width))
-        (frame-geometry-height (frame-parameter (selected-frame) 'height))
-        (frame-geometry-file (expand-file-name "frame-geometry" user-emacs-directory))
-        )
+;; Removes *scratch* from buffer after the mode has been set.
+(defun remove-scratch-buffer ()
+  (if (get-buffer "*scratch*")
+      (kill-buffer "*scratch*")))
+(add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
 
-    (when (not (number-or-marker-p frame-geometry-left))
-      (setq frame-geometry-left 0))
-    (when (not (number-or-marker-p frame-geometry-top))
-      (setq frame-geometry-top 0))
-    (when (not (number-or-marker-p frame-geometry-width))
-      (setq frame-geometry-width 0))
-    (when (not (number-or-marker-p frame-geometry-height))
-      (setq frame-geometry-height 0))
+;; Removes *messages* from the buffer.
+(setq-default message-log-max nil)
+;; (kill-buffer "*Messages*")
 
-    (with-temp-buffer
-      (insert
-       ";;; This is the previous emacs frame's geometry.\n"
-       ";;; Last generated " (current-time-string) ".\n"
-       "(setq initial-frame-alist\n"
-       "      '(\n"
-       (format "        (top . %d)\n" (max frame-geometry-top 0))
-       (format "        (left . %d)\n" (max frame-geometry-left 0))
-       (format "        (width . %d)\n" (max frame-geometry-width 0))
-       (format "        (height . %d)))\n" (max frame-geometry-height 0)))
-      (when (file-writable-p frame-geometry-file)
-        (write-file frame-geometry-file))))
-  )
-
-(defun frame-geometry/load ()
-  "Loads ~/.emacs.d/frame-geometry which should load the previous frame's geometry."
-  (let ((frame-geometry-file (expand-file-name "frame-geometry" user-emacs-directory)))
-    (when (file-readable-p frame-geometry-file)
-      (load-file frame-geometry-file)))
-  )
-
-  ;; add hooks to restore frame size and location, if we are using gui emacs
-  (if window-system
-      (progn
-        (add-hook 'after-init-hook 'frame-geometry/load)
-        (add-hook 'kill-emacs-hook 'frame-geometry/save))
-    )
+;; remove the *doom* buffer
