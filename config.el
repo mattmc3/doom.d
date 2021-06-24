@@ -49,6 +49,8 @@
 (setq-default evil-escape-key-sequence "uu")
 (setq-default evil-escape-delay 0.3)
 
+;; emacs needs to stop asking me to confirm when I close it
+(setq confirm-kill-emacs nil)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
