@@ -42,6 +42,9 @@
 ;; I need the help to show up faster
 (setq which-key-idle-delay 0.2)
 
+;; trailing newlines are the bomb
+(setq require-final-newline t)
+
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
