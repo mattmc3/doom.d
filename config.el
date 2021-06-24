@@ -38,6 +38,10 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+;; which-key is the plugin that makes the SPC magic happen in doom
+;; I need the help to show up faster
+(setq which-key-idle-delay 0.2)
+
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
