@@ -45,6 +45,10 @@
 ;; trailing newlines are the bomb
 (setq require-final-newline t)
 
+;; evil + colemak
+(setq-default evil-escape-key-sequence "uu")
+(setq-default evil-escape-delay 0.3)
+
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
