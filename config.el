@@ -40,7 +40,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Documents/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -74,3 +74,85 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+
+
+;; Custom
+
+;; make the cursor a bar, not a blinking box
+(setq-default cursor-type 'bar)
+
+;; line numbers
+(global-display-line-numbers-mode)
+
+;; hide splash screen
+;; (setq inhibit-splash-screen t)
+
+;; empty *scratch*
+;; (setq initial-scratch-message "")
+
+;; desktop save mode (session restore)
+(setq desktop-save t)
+(desktop-save-mode 1)
+
+;; trailing newlines are the bomb
+(setq require-final-newline t)
+
+;; highlight the current line
+(global-hl-line-mode +1)
+
+;; Set the font
+;; On a Mac, fonts can be found in the FontBook app
+(ignore-errors (set-frame-font "MesloLGL Nerd Font 14"))
+
+;; recent files
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+;; show tab bar
+(global-tab-line-mode t)
+
+;; don't confirm when emacs exits
+(setq confirm-kill-emacs nil)
+
+;;; Keybindings
+
+;; In the old days ESC was used as a prefix key, but I want ESC to act like it
+;; does everywhere else on my system and, you know, escape from things. So
+;; I've remapped ESC to `keyboard-quit'.
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+
+;; Make shift-click extend the selection (region)
+(global-set-key [S-down-mouse-1] 'ignore)
+(global-set-key [S-mouse-1] 'mouse-save-then-kill)
+
+;; Use M-drag-mouse-1 to create rectangle regions
+(global-set-key [M-down-mouse-1] #'mouse-drag-region-rectangle)
+(global-set-key [M-drag-mouse-1] #'ignore)
+(global-set-key [M-mouse-1]      #'mouse-set-point)
+
+;; Make emacs keybindings work like other Mac apps
+;; https://osdn.net/projects/macwiki/svn/view/zenitani/CarbonEmacs/src/lisp/mac-key-mode.el?root=macwiki&view=markup
+(global-set-key [(super up)] 'beginning-of-buffer)
+(global-set-key [(super down)] 'end-of-buffer)
+(global-set-key [(super left)] 'beginning-of-line)
+(global-set-key [(super right)] 'end-of-line)
+(global-set-key (kbd "s-s") 'save-buffer)
+(global-set-key (kbd "s-a") 'mark-whole-buffer)
+(global-set-key (kbd "s-z") 'undo)
+(global-set-key (kbd "s-c") 'kill-ring-save)
+(global-set-key (kbd "s-v") 'yank)
+(global-set-key (kbd "s-x") 'kill-region)
+(global-set-key (kbd "s-/") 'evilnc-comment-or-uncomment-lines)
+;; (global-set-key (kbd "s-/") 'comment-dwim)
+
+;; sublime ⌘-P opens the command window
+(global-set-key (kbd "s-P") 'execute-extended-command)
+
+;; multiple cursors
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "s-d") 'mc/mark-next-like-this-word)
+(global-set-key (kbd "s-L") 'mc/edit-ends-of-lines)
+
+;;; config.el ends here
