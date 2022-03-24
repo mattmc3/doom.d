@@ -110,11 +110,22 @@
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
-;; show tab bar
-(global-tab-line-mode t)
+;; show tab bar (er... don't actually show it and use ui: tabs per doom docs)
+;; (global-tab-line-mode t)
 
 ;; don't confirm when emacs exits
 (setq confirm-kill-emacs nil)
+
+;;; Whitespace
+;; (setq whitespace-style '(face
+;;                          tabs
+;;                          tab-mark
+;;                          trailing
+;;                          space-before-tab
+;;                          missing-newline-at-eof))
+(whitespace-mode)
+(whitespace4r-mode)
+
 
 ;;; Keybindings
 
@@ -133,7 +144,6 @@
 (global-set-key [M-mouse-1]      #'mouse-set-point)
 
 ;; Make emacs keybindings work like other Mac apps
-;; https://osdn.net/projects/macwiki/svn/view/zenitani/CarbonEmacs/src/lisp/mac-key-mode.el?root=macwiki&view=markup
 (global-set-key [(super up)] 'beginning-of-buffer)
 (global-set-key [(super down)] 'end-of-buffer)
 (global-set-key [(super left)] 'beginning-of-line)
