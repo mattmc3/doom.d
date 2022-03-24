@@ -49,5 +49,11 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+;;; Code:
+
 (package! evil-nerd-commenter)
 (package! multiple-cursors)
+(package! whitespace4r
+  :recipe (:host github :repo "twlz0ne/whitespace4r.el" :files ("whitespace4r.el")))
+
+;;; packages.el ends here
